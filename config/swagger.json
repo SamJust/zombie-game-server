@@ -1,0 +1,460 @@
+{
+   "swagger":"2.0",
+   "info":{
+      "description":"Zombie game API"
+   },
+   "host":"localhost:3001",
+   "basePath":"/",
+   "tags":[],
+   "schemes":[],
+   "paths":{
+      "/login":{
+         "post":{
+            "tags":[
+               "User"
+            ],
+            "summary":"Login user",
+            "description":"",
+            "consumes":[
+               "application/json"
+            ],
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+               {
+                  "in":"body",
+                  "name":"email",
+                  "description":"Users email",
+                  "required":true,
+                  "example":"samjust@samjust.com"
+               },
+               {
+                  "in":"body",
+                  "name":"password",
+                  "description":"Users password",
+                  "required":true,
+                  "example":"samjust"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"Success",
+                  "schema":{
+                      "type":"object",
+                      "properties":
+                        {
+                            "nickname":{
+                                "type":"string",
+                                "description": "User's nickname",
+                                "example":"Samjust228"
+                            },
+                            "resources": {
+                              "type":"json",
+                              "description":"User's resources",
+                              "example":{
+                                "energy": 228,
+                                "brains": 5,
+                                "heartMuscles": 1,
+                                "livers": 3,
+                                "corpses": 2
+                              }
+                            },
+                            "skeletons":{
+                              "type": "array",
+                              "description":"User's known formulas",
+                              "example":[
+                                  {
+                                      "type": "rat",
+                                      "integrety": [
+                                          0.5,
+                                          0.7,
+                                          1
+                                      ]
+                                  },
+                                  {
+                                      "type": "bat",
+                                      "integrety": [
+                                          0.1,
+                                          0.2,
+                                          1
+                                      ]
+                                  }
+                              ]
+                            },
+                            "knownFormulas":{
+                              "type":"array",
+                              "description":"User's known formulas",
+                              "example": [
+                                  {
+                                      "_id": "5b0ec75cdb224e66fe55ef66",
+                                      "date": 0
+                                  },
+                                  {
+                                      "_id": "5b0ec75cdb224e66fe55ef64",
+                                      "date": 1
+                                  }
+                              ]
+                            },
+                            "army":{
+                              "type":"array",
+                              "description":"User's army",
+                              "example": []
+                            },
+                            "lastLocation":{
+                              "type":"string",
+                              "description":"User's last location",
+                              "example": "/"
+                            }
+                        }
+                      }
+                  },
+                  "404":{
+                    "description":"Failure. Server was unable to find matching email/pass pair in database."
+                  }
+               }
+            }
+      },
+      "/registration":{
+         "post":{
+            "tags":[
+               "User"
+            ],
+            "summary":"Registrate user",
+            "description":"",
+            "consumes":[
+               "application/json"
+            ],
+            "produces":[
+               "application/json"
+            ],
+            "parameters":[
+               {
+                  "in":"body",
+                  "name":"email",
+                  "description":"Users email",
+                  "required":true,
+                  "example":"samjust@samjust.com"
+               },
+               {
+                  "in":"body",
+                  "name":"password",
+                  "description":"Users password",
+                  "required":true,
+                  "example":"samjust"
+               },
+               {
+                  "in":"body",
+                  "name":"nickname",
+                  "description":"Users nickname",
+                  "required":true,
+                  "example":"Samjust228"
+               }
+            ],
+            "responses":{
+               "201":{
+                  "description":"New user registrated",
+                  "schema":{
+                      "type":"object",
+                      "properties":
+                        {
+                            "nickname":{
+                                "type":"string",
+                                "description": "User's nickname",
+                                "example":"Samjust228"
+                            },
+                            "resources": {
+                              "type":"json",
+                              "description":"User's resources",
+                              "example":{
+                                "energy": 228,
+                                "brains": 5,
+                                "heartMuscles": 1,
+                                "livers": 3,
+                                "corpses": 2
+                              }
+                            },
+                            "skeletons":{
+                              "type": "array",
+                              "description":"User's known formulas",
+                              "example":[
+                                  {
+                                      "type": "rat",
+                                      "integrety": [
+                                          0.5,
+                                          0.7,
+                                          1
+                                      ]
+                                  },
+                                  {
+                                      "type": "bat",
+                                      "integrety": [
+                                          0.1,
+                                          0.2,
+                                          1
+                                      ]
+                                  }
+                              ]
+                            },
+                            "knownFormulas":{
+                              "type":"array",
+                              "description":"User's known formulas",
+                              "example": [
+                                  {
+                                      "_id": "5b0ec75cdb224e66fe55ef66",
+                                      "date": 0
+                                  },
+                                  {
+                                      "_id": "5b0ec75cdb224e66fe55ef64",
+                                      "date": 1
+                                  }
+                              ]
+                            },
+                            "army":{
+                              "type":"array",
+                              "description":"User's army",
+                              "example": []
+                            },
+                            "lastLocation":{
+                              "type":"string",
+                              "description":"User's last location",
+                              "example": "/"
+                            }
+                        }
+                      }
+               },
+               "409":{
+                 "description":"Email is taken"
+               }
+            }
+         }
+      },
+      "/formulas":{
+        "get":{
+          "tags":[
+             "Formulas"
+          ],
+          "summary":"Get all formulas in game",
+          "description":"",
+          "consumes":[
+             "application/json"
+          ],
+          "produces":[
+             "application/json"
+          ],
+          "responses":{
+            "200":{
+              "description":"Success",
+                  "example":[
+                    {
+                        "_id": "5b0ec75cdb224e66fe55ef64",
+                        "name": "bat",
+                        "skeletonType": "bat",
+                        "resources": {
+                            "energy": 2,
+                            "brains": 3,
+                            "heartMuscles": 4,
+                            "livers": 5,
+                            "corpses": 6
+                        },
+                        "img": "https://images.cdn3.stockunlimited.net/preview1300/flying-bat_1935421.jpg",
+                        "stats": {
+                            "healthPoints": 12,
+                            "def": 15
+                        }
+                    },
+                    {
+                        "_id": "5b0ec75cdb224e66fe55ef66",
+                        "name": "ogre",
+                        "skeletonType": "ogre",
+                        "resources": {
+                            "energy": 22,
+                            "brains": 228,
+                            "heartMuscles": 322,
+                            "livers": 123,
+                            "corpses": 32323
+                        },
+                        "img": "https://cdn-images-1.medium.com/max/1200/1*ifZW_6A6IIqvPmfvrehIDQ.png",
+                        "stats": {
+                            "healthPoints": 12,
+                            "def": 15
+                        }
+                    },
+                    {
+                        "_id": "5b0ec75cdb224e66fe55ef65",
+                        "name": "rat",
+                        "skeletonType": "rat",
+                        "resources": {
+                            "energy": 1,
+                            "brains": 2,
+                            "heartMuscles": 4,
+                            "livers": 2,
+                            "corpses": 3
+                        },
+                        "img": "http://media.hollywood.com/images/638x425/1806406.jpeg",
+                        "stats": {
+                            "healthPoints": 12,
+                            "def": 15
+                        }
+                    }
+                ]
+            },
+            "500":{
+              "description":"Failure"
+            }
+          }
+        }
+      },
+      "/resources":{
+        "get":{
+          "tags":[
+             "Resources"
+          ],
+          "summary":"Get user's current resources",
+          "description":"",
+          "consumes":[
+             "application/json"
+          ],
+          "produces":[
+             "application/json"
+          ],
+          "responses":{
+            "200":{
+              "description":"Success",
+              "example":{
+                  "energy": 7,
+                  "brains": 5,
+                  "heartMuscles": 1,
+                  "livers": 3,
+                  "corpses": 2
+              }
+            },
+            "500":{
+              "description":"Failure"
+            }
+          }
+        },
+        "post":{
+          "tags":[
+             "Resources"
+          ],
+          "summary":"Update user's current resources",
+          "description":"",
+          "consumes":[
+             "application/json"
+          ],
+          "produces":[
+             "application/json"
+          ],
+          "parameters":[
+             {
+                "in":"body",
+                "name":"energy",
+                "description":"New energy value",
+                "required":true,
+                "example":228
+             },
+             {
+                "in":"body",
+                "name":"brains",
+                "description":"New brains value",
+                "required":true,
+                "example":1
+             },
+             {
+                "in":"body",
+                "name":"heartMuscles",
+                "description":"New heart muscles value",
+                "required":true,
+                "example":3
+             },
+             {
+                "in":"body",
+                "name":"livers",
+                "description":"New livers value",
+                "required":true,
+                "example":6
+             },
+             {
+                "in":"body",
+                "name":"corpses",
+                "description":"New corpses value",
+                "required":true,
+                "example":8
+             }
+          ],
+          "responses":{
+            "200":{
+              "description":"Success"
+            },
+            "500":{
+              "description":"Failure"
+            }
+          }
+        }
+      },
+      "/signout":{
+        "get":{
+          "tags":[
+             "User"
+          ],
+          "summary":"Sign out user from system",
+          "description":"",
+          "consumes":[
+             "application/json"
+          ],
+          "produces":[
+             "application/json"
+          ],
+          "responses":{
+            "200":{
+              "description":"Success"
+            },
+            "500":{
+              "description":"Failure"
+            }
+          }
+        }
+      },
+      "/lastlocation":{
+        "get":{
+          "tags":[
+             "User"
+          ],
+          "summary":"Update user's last location parameter",
+          "description":"",
+          "consumes":[
+             "application/json"
+          ],
+          "produces":[
+             "application/json"
+          ],
+          "responses":{
+            "200":{
+              "description":"Success"
+            },
+            "500":{
+              "description":"Failure"
+            }
+          }
+        }
+      },
+      "/deleteacc":{
+        "post":{
+          "tags":[
+             "User"
+          ],
+          "summary":"Delete users logged in account",
+          "description":"",
+          "responses":{
+            "200":{
+              "description":"Success"
+            },
+            "500":{
+              "description":"Failure"
+            }
+          }
+        }
+      }
+   }
+}
