@@ -19,6 +19,7 @@ module.exports = (app)=>{
 
     app.post('/deleteacc', (req, res)=>{
       User.findByIdAndRemove(req.session.id).then(data => {
+        res.deleteSession();
         res.end();
       }).catch(err => {
         res.sendStatus(500);

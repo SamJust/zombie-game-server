@@ -31,6 +31,7 @@ module.exports = (app)=>{
   });
 
   app.get('/signout', (req, res)=>{
+    res.deleteSession();
     res.sendStatus(200);
   });
 };

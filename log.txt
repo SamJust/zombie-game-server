@@ -1,0 +1,3 @@
+[1530783076857]User: samjust@samjust.com logged
+[1530783080711]user: samjust@samjust.com logged out
+[1530783207424]Caught exception: ReferenceError: asdawdad is not defined

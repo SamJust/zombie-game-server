@@ -1,10 +1,18 @@
+
 const express = require('express')
     , PORT = process.env.PORT || 3001
     , mongoose = require('mongoose')
     , bodyParser = require('body-parser')
     , cookieParser = require('cookie-parser')
     , swaggerUI = require('swagger-ui-express')
-    , swaggerJSON = require('./swagger.json');
+    , swaggerJSON = require('./swagger.json')
+    , fs = require('fs');
+
+process.on('uncaughtException', (err) => {
+  console.log('test');
+  fs.appendFileSync('log.txt', `[${Date.now()}]Caught exception: ${err}\n`);
+});
+
 
 mongoose.connect("mongodb://admin:admin@ds231559.mlab.com:31559/zombie-game-app").then(
   ()=>{
@@ -33,6 +41,10 @@ require('../controllers/loginController.js')(app);
 require('../controllers/resourcesController.js')(app);
 require('../controllers/formulasController.js')(app);
 require('../controllers/userController.js')(app);
+
+app.get('/test', (req, res)=>{
+  res.end();
+});
 
 app.get('*', (req, res)=>{
   res.sendStatus(404);
