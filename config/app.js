@@ -6,7 +6,8 @@ const express = require('express')
     , cookieParser = require('cookie-parser')
     , swaggerUI = require('swagger-ui-express')
     , swaggerJSON = require('./swagger.json')
-    , fs = require('fs');
+    , fs = require('fs')
+    , path = require('path');
 
 process.on('uncaughtException', (err) => {
   console.log('test');
@@ -42,8 +43,8 @@ require('../controllers/resourcesController.js')(app);
 require('../controllers/formulasController.js')(app);
 require('../controllers/userController.js')(app);
 
-app.get('/test', (req, res)=>{
-  res.end();
+app.get('/logs', (req, res)=>{
+  res.sendFile(path.resolve(__dirname, '../log.txt'));
 });
 
 app.get('*', (req, res)=>{
