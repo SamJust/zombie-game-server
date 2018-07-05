@@ -9,10 +9,9 @@ const express = require('express')
     , fs = require('fs')
     , path = require('path');
 
-process.on('uncaughtException', (err) => {
-  console.log('test');
-  fs.appendFileSync('log.txt', `[${Date.now()}]Caught exception: ${err}\n`);
-});
+// process.on('uncaughtException', (err) => {
+//   fs.appendFileSync('log.txt', `[${Date.now()}]Caught exception: ${err}\n`);
+// });
 
 
 mongoose.connect("mongodb://admin:admin@ds231559.mlab.com:31559/zombie-game-app").then(
@@ -44,7 +43,13 @@ require('../controllers/formulasController.js')(app);
 require('../controllers/userController.js')(app);
 
 app.get('/logs', (req, res)=>{
-  res.sendFile(path.resolve(__dirname, '../log.txt'));
+  let stream = fs.createReadStream(path.resolve(__dirname, '../log.txt'));
+  stream.on('data', chunk => {
+    res.write(chunk);
+  });
+  stream.on('end', ()=>{
+    res.end();
+  });
 });
 
 app.get('*', (req, res)=>{

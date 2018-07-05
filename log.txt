@@ -1,3 +1,4 @@
-[1530783076857]User: samjust@samjust.com logged
-[1530783080711]user: samjust@samjust.com logged out
-[1530783207424]Caught exception: ReferenceError: asdawdad is not defined
+[1530788947226] somebody tried to login wih unexisting email ip: undefined email: sdfsdfsdfsdf@samjust.com
+[1530789016664] somebody tried to login wih unexisting email ip: ::1 email: sdfsdfsdfsdf@samjust.com
+[1530789093491] somebody tried to login wih unexisting email ip: ::1 email: sdfsdfsdfsdf@samjust.com
+[1530789275285] somebody tried to login wih email: samjust@samjust.com from ip: ::1

@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
-    , jwt = require('jsonwebtoken')
-    , fs = require('fs');
-
+    , jwt = require('jsonwebtoken');
+    
 const secretString = require('../../config/config.json');
 
 let sessions = {};
@@ -36,14 +35,12 @@ module.exports = (req, res, next)=>{
         let id = '_' + Math.random().toString(36).substr(2, 9);
         sessions[id] = {email:data.email, id:data.id};
         res.cookie('token', jwt.sign({sessionId:id}, secretString.appsSecret));
-        fs.appendFile('log.txt', `[${Date.now()}]User: ${data.email} logged\n`, (err) => {});
       };
       break;
     case '/signout':
     case '/deleteacc':
       res.deleteSession = ()=>{
         res.clearCookie('token');
-        fs.appendFile('log.txt', `[${Date.now()}]user: ${req.session.email} logged out\n`, (err) => {});
         delete sessions[token.sessionId];
       }
       break;
