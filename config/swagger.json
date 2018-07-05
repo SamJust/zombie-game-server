@@ -455,6 +455,25 @@
             }
           }
         }
+      },
+      "/logs":{
+        "get":{
+          "tags":[
+             "Admin"
+          ],
+          "summary":"Shows content of server's log file",
+          "description":"",
+          "produces":["text/plain"],
+          "responses":{
+            "200":{
+              "description":"Success",
+              "example": "[1530789093491] somebody tried to login wih unexisting email ip: ::1 email: sdfsdfsdfsdf@samjust.com [1530789275285] somebody tried to login wih email: samjust@samjust.com from ip: ::1"
+            },
+            "500":{
+              "description":"Failure"
+            }
+          }
+        }
       }
    }
 }

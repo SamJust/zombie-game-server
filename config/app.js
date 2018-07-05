@@ -42,6 +42,7 @@ require('../controllers/formulasController.js')(app);
 require('../controllers/userController.js')(app);
 
 app.get('/logs', (req, res)=>{
+  res.set('Content-Type', 'text/plain');
   let stream = fs.createReadStream(path.resolve(__dirname, '../log.txt'));
   stream.on('data', chunk => {
     res.write(chunk);
