@@ -9,6 +9,7 @@ var userSchema = new mongoose.Schema({
   skeletons: Array,
   knownFormulas: Array,
   lastLocation: String,
+  sessions: Array,
 });
 
 mongoose.model('users', userSchema);

@@ -13,7 +13,6 @@ const express = require('express')
 //   fs.appendFileSync('log.txt', `[${Date.now()}]Caught exception: ${err}\n`);
 // });
 
-
 mongoose.connect("mongodb://admin:admin@ds231559.mlab.com:31559/zombie-game-app").then(
   ()=>{
     console.log("Succefull connection to DB");
