@@ -1,11 +1,12 @@
 const mongoose = require('mongoose')
     , jwt = require('jsonwebtoken');
-    
+
 const secretString = require('../../config/config.json');
 
 let sessions = {};
 
-let Session = mongoose.model('sessions');
+let Session = mongoose.model('sessions')
+  , User    = mongoose.model('users');
 
 Session.findOne({}).then(data=>{
   (data===null)? sessions = {} : sessions = data.sessions;
@@ -33,15 +34,28 @@ module.exports = (req, res, next)=>{
     case '/registration':
       res.createSession = (data)=>{
         let id = '_' + Math.random().toString(36).substr(2, 9);
-        sessions[id] = {email:data.email, id:data.id};
+        sessions[id] = {
+          email:data.email,
+          id:data.id,
+          startDate: Date.now()
+        };
         res.cookie('token', jwt.sign({sessionId:id}, secretString.appsSecret));
       };
       break;
     case '/signout':
     case '/deleteacc':
       res.deleteSession = ()=>{
-        res.clearCookie('token');
-        delete sessions[token.sessionId];
+        req.session.endDate = Date.now();
+        return User.findByIdAndUpdate(req.session.id, {
+          $push: {
+             sessions:req.session
+          }
+        }).then(()=>{
+          res.clearCookie('token');
+          delete sessions[token.sessionId];
+        }).catch(err =>{
+          console.log(err.message);
+        });
       }
       break;
   }
