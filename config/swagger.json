@@ -303,6 +303,58 @@
               "description":"Failure"
             }
           }
+        },
+        "post":{
+          "tags":[
+             "Formulas"
+          ],
+          "summary":"Create a unit",
+          "description":"Creates a unit and returns a new state of resources, skeletons and army",
+          "consumes":[
+             "application/json"
+          ],
+          "produces":[
+             "application/json"
+          ],
+          "parameters":[
+            {
+              "in":"body",
+              "name": "item",
+              "description": "An ID of formula user wants to create",
+              "required": true,
+              "example": "5b0ec75cdb224e66fe55ef66"
+            }
+          ],
+          "responses":{
+            "200":{
+               "description":"Success",
+               "schema":{
+                   "type":"object",
+                   "properties":
+                     {
+                       "resources": {
+                           "energy": 8,
+                           "brains": 7,
+                           "heartMuscles": 6,
+                           "livers": 5,
+                           "corpses": 4
+                       }
+                   }
+               }
+            },
+            "460":{
+              "description":"Not enough resources for creation"
+            },
+            "461":{
+              "description":"No matching intact skeleton"
+            },
+            "462":{
+              "description":"Recepie not learned"
+            },
+            "500":{
+              "description":"Server failure"
+            }
+          }
         }
       },
       "/resources":{

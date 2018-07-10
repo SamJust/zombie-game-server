@@ -4,21 +4,21 @@ let User = mongoose.model('users');
 
 module.exports = (app)=>{
     app.post('/lastlocation', (req, res)=>{
-      User.findByIdAndUpdate(req.session.id, {
+      User.findByIdAndUpdate(req.session._id, {
         $set:{
           "lastLocation":req.body.lastLocation
         }
-      }, (err, data)=>{
-        if(err){
-          console.log(err.mess);
-          res.sendStatus(500);
-        }
-        else res.sendStatus(200);
+      }).then(data=>{
+        req.session.lastLocation = req.body.lastLocation;
+        res.sendStatus(200);
+      }).catch(err=>{
+        console.log(err.mess);
+        res.sendStatus(500);
       });
     });
 
     app.post('/deleteacc', (req, res)=>{
-      User.findByIdAndRemove(req.session.id).then(data => {
+      User.findByIdAndRemove(req.session._id).then(data => {
         res.deleteSession();
         res.end();
       }).catch(err => {

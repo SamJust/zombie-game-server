@@ -11,7 +11,7 @@ let User = mongoose.model('users');
 
 module.exports = (app)=>{
   app.get('/resources', (req, res)=>{
-    User.findById(req.session.id, {resources:1, _id:0}, (err, data)=>{
+    User.findById(req.session._id, {resources:1, _id:0}, (err, data)=>{
       if(!data){
         res.sendStatus(404);
       } else {
@@ -21,13 +21,15 @@ module.exports = (app)=>{
   });
 
   app.post('/resources', (req, res)=>{
-    User.findByIdAndUpdate(req.session.id, {
+    User.findByIdAndUpdate(req.session._id, {
       $set:{
         resources:req.body
       }
-    }, (err, data)=>{
-      if(err) res.sendStatus(500);
-      else res.sendStatus(200);
+    }).then(data=>{
+      req.session.resources = req.body;
+      res.sendStatus(200);
+    }).catch(err => {
+      res.sendStatus(500);
     });
   });
 };
