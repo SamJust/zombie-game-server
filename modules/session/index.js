@@ -35,10 +35,15 @@ module.exports = (req, res, next)=>{
       res.createSession = (data)=>{
         let id = '_' + Math.random().toString(36).substr(2, 9);
         sessions[id] = {
-          email:data.email,
-          id:data.id,
+          army:data._doc.army,
+          skeletons:data._doc.skeletons,
+          knownFormulas:data._doc.knownFormulas,
+          resources:data._doc.resources,
+          lastLocation:data._doc.lastLocation,
+          _id:data._doc._id,
           startDate: Date.now()
         };
+        delete sessions[id].sessions;
         res.cookie('token', jwt.sign({sessionId:id}, secretString.appsSecret));
       };
       break;
@@ -46,7 +51,7 @@ module.exports = (req, res, next)=>{
     case '/deleteacc':
       res.deleteSession = ()=>{
         req.session.endDate = Date.now();
-        return User.findByIdAndUpdate(req.session.id, {
+        return User.findByIdAndUpdate(req.session._id, {
           $push: {
              sessions:req.session
           }
