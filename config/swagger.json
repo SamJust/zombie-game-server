@@ -492,7 +492,7 @@
         }
       },
       "/deleteacc":{
-        "post":{
+        "delete":{
           "tags":[
              "User"
           ],
@@ -520,6 +520,74 @@
             "200":{
               "description":"Success",
               "example": "[1530789093491] somebody tried to login wih unexisting email ip: ::1 email: sdfsdfsdfsdf@samjust.com [1530789275285] somebody tried to login wih email: samjust@samjust.com from ip: ::1"
+            },
+            "500":{
+              "description":"Failure"
+            }
+          }
+        }
+      },
+      "/skeletons":{
+        "post":{
+          "tags":[
+             "Skeletons"
+          ],
+          "summary":"Add skeleton to user",
+          "description":"",
+          "produces":["text/plain"],
+          "parameters":[
+             {
+                "in":"body",
+                "name":"type",
+                "description":"Type of skeleton to add",
+                "required":true,
+                "example":"ogre"
+             },
+             {
+                "in":"body",
+                "name":"integrety",
+                "description":"Integrety of a new skeleton",
+                "required":true,
+                "example":0.7
+             }
+          ],
+          "responses":{
+            "201":{
+              "description":"Success",
+              "example": "Returns a new state"
+            },
+            "500":{
+              "description":"Failure"
+            }
+          }
+        },
+        "patch":{
+          "tags":[
+             "Skeletons"
+          ],
+          "summary":"Create one skeletons out of two existing ones",
+          "description":"",
+          "produces":["text/plain"],
+          "parameters":[
+             {
+                "in":"body",
+                "name":"a",
+                "description":"First skeleton",
+                "required":true,
+                "example":"{ type: \"ogre\", integrety: 0.75 }"
+             },
+             {
+                "in":"body",
+                "name":"b",
+                "description":"First skeleton",
+                "required":true,
+                "example":"{ type: \"bat\", integrety: 0.3 }"
+             }
+          ],
+          "responses":{
+            "201":{
+              "description":"Success",
+              "example": "Returns a new state"
             },
             "500":{
               "description":"Failure"
