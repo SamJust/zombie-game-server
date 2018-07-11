@@ -582,6 +582,13 @@
                 "description":"First skeleton",
                 "required":true,
                 "example":"{ type: \"bat\", integrety: 0.3 }"
+             },
+             {
+                "in":"body",
+                "name":"targetType",
+                "description":"Type of a new skeleton",
+                "required":true,
+                "example":"ogre"
              }
           ],
           "responses":{
