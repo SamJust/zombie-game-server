@@ -40,6 +40,7 @@ require('../controllers/loginController.js')(app);
 require('../controllers/resourcesController.js')(app);
 require('../controllers/formulasController.js')(app);
 require('../controllers/userController.js')(app);
+require('../controllers/skeletonsController.js')(app);
 
 app.get('/logs', (req, res)=>{
   res.set('Content-Type', 'text/plain');

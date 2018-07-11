@@ -1,4 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
+    , findSkeleton = require('../utils/findSkeleton.js')
+    , modifySession = require('../utils/modifySession.js');
 
 let Formulas = mongoose.model("formulas")
   , User = mongoose.model("users");
@@ -20,15 +22,6 @@ function withdrawResources (targetResources, currentResources) {
   }
 }
 
-function findIntactSkeleton (skeletonsArray, skeletonType) {
-  for(let i = 0; i < skeletonsArray.length; i++){
-    for (let a = 0; a < skeletonsArray[i].integrety.length; a++) {
-      if(skeletonsArray[i].type !== skeletonType) continue;
-      if(skeletonsArray[i].integrety[a] === 1) return skeletonsArray[i].integrety.splice(a, 1);
-    }
-  }
-}
-
 module.exports = (app)=>{
   app.get('/formulas', (req, res)=>{
      Formulas.find({}, (err, data)=>{
@@ -41,7 +34,7 @@ module.exports = (app)=>{
     if(req.session.knownFormulas.findIndex(formula => formula._id === req.body.item) === -1) return res.sendStatus(462);
     Formulas.findById(req.body.item).then(data => {
       if(!checkResources(data.resources, req.session.resources)) return res.sendStatus(460);
-      let skeletonLoaction = findIntactSkeleton(req.session.skeletons, data.skeletonType);
+      let skeletonLoaction = findSkeleton(req.session.skeletons, data.skeletonType, 1);
       if(!skeletonLoaction) return res.sendStatus(461);
       withdrawResources(data.resources, req.session.resources);
       let newUnit = {
@@ -49,6 +42,7 @@ module.exports = (app)=>{
         name: data.name,
         stats: data._doc.stats
       };
+      req.session.skeletons[skeletonLoaction.i].integrety.splice(skeletonLoaction.a, 1);
       req.session.army.push(newUnit);
       User.findByIdAndUpdate(req.session._id, {
         $set:{
@@ -59,9 +53,7 @@ module.exports = (app)=>{
           army: newUnit
         }
       }).then(data => {
-        let response = Object.assign({}, req.session);
-        delete response['startDate'];
-        res.json(response);
+        res.json(modifySession(req.session));
       });
     }).catch(err => {
       console.log(err.message);

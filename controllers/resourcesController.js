@@ -32,15 +32,4 @@ module.exports = (app)=>{
       res.sendStatus(500);
     });
   });
-
-  app.post('/skeletons', (req, res)=>{
-    User.findByIdAndUpdate(req.session._id, {
-      $push:{
-          skeletons:req.body
-      }
-    }).then().catch(err => {
-      console.log(err.message);
-      res.sendStatus(500);
-    });
-  });
 };
