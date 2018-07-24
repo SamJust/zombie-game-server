@@ -40,6 +40,9 @@ module.exports = (req, res, next)=>{
           knownFormulas:data._doc.knownFormulas,
           resources:data._doc.resources,
           lastLocation:data._doc.lastLocation,
+          lvl:data._doc.lvl,
+          exp:data._doc.exp,
+          maxArmy:data._doc.maxArmy,
           _id:data._doc._id,
           startDate: Date.now()
         };

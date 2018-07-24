@@ -36,6 +36,7 @@ module.exports = (app)=>{
       if(!checkResources(data.resources, req.session.resources)) return res.sendStatus(460);
       let skeletonLoaction = findSkeleton(req.session.skeletons, data.skeletonType, 1);
       if(!skeletonLoaction) return res.sendStatus(461);
+      if(req.session.army.length >= req.session.maxArmy) return res.sendStatus(463);
       withdrawResources(data.resources, req.session.resources);
       let newUnit = {
         _id: data._id,
