@@ -351,6 +351,9 @@
             "462":{
               "description":"Recepie not learned"
             },
+            "463":{
+              "description":"Army overflow"
+            },
             "500":{
               "description":"Server failure"
             }
@@ -469,7 +472,7 @@
         }
       },
       "/lastlocation":{
-        "get":{
+        "post":{
           "tags":[
              "User"
           ],
@@ -484,6 +487,34 @@
           "responses":{
             "200":{
               "description":"Success"
+            },
+            "500":{
+              "description":"Failure"
+            }
+          }
+        }
+      },
+      "/userinfo":{
+        "get":{
+          "tags":[
+             "User"
+          ],
+          "summary":"Get user's info",
+          "description":"",
+          "consumes":[
+             "application/json"
+          ],
+          "produces":[
+             "application/json"
+          ],
+          "responses":{
+            "200":{
+              "description":"Success",
+              "example":{
+                  "lvl": 7,
+                  "exp": 5,
+                  "maxArmy": 1
+              }
             },
             "500":{
               "description":"Failure"

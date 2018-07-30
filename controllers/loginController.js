@@ -23,7 +23,10 @@ module.exports = (app)=>{
             skeletons: data.skeletons,
             knownFormulas: data.knownFormulas,
             lastLocation: data.lastLocation,
-            army:data.army
+            army:data.army,
+            lvl:data.lvl,
+            exp:data.exp,
+            maxArmy:data.maxArmy,
           });
         }
         else{

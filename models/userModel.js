@@ -10,6 +10,9 @@ var userSchema = new mongoose.Schema({
   knownFormulas: Array,
   lastLocation: String,
   sessions: Array,
+  lvl: Number,
+  exp: Number,
+  maxArmy: Number
 });
 
 mongoose.model('users', userSchema);
