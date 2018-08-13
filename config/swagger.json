@@ -358,6 +358,43 @@
               "description":"Server failure"
             }
           }
+        },
+        "put":{
+          "tags":[
+             "Formulas"
+          ],
+          "summary":"Add a formula to user's account",
+          "description":"",
+          "consumes":[
+             "application/json"
+          ],
+          "produces":[
+             "application/json"
+          ],
+          "parameters":[
+            {
+              "in":"body",
+              "name": "name",
+              "description": "An name of formula to add",
+              "required": true,
+              "example": "rat"
+            }
+          ],
+          "responses":{
+            "200":{
+              "description":"Success",
+                  "example":"Returns new state"
+            },
+            "400":{
+              "description": "Unexisting formula O_o"
+            },
+            "409":{
+              "description": "User already has this formula"
+            },
+            "500":{
+              "description":"Failure"
+            }
+          }
         }
       },
       "/resources":{

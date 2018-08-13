@@ -32,11 +32,11 @@ module.exports = (app)=>{
               }
             ],
             knownFormulas:[{
-                _id:"5b0ec75cdb224e66fe55ef66",
+                name:'bat',
                 date: 0
               },
               {
-                _id:"5b0ec75cdb224e66fe55ef64",
+                name:'ogre',
                 date:1
             }],
             lastLocation: '/'
