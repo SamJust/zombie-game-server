@@ -1,5 +1,6 @@
 db.formulas.insert([{
-  	"name":"bat",
+  	"title":"bat",
+    "name":"bat",
   	"skeletonType":"bat",
 	"resources":{
                 energy: 2,
@@ -15,7 +16,8 @@ db.formulas.insert([{
 		}
 },
 {
-  	"name":"rat",
+  	"title":"rat",
+    "name":"rat",
   	"skeletonType":"rat",
 	"resources":{
                 energy: 1,
@@ -31,7 +33,8 @@ db.formulas.insert([{
 		}
 },
 {
-  	"name":"ogre",
+  	"title":"ogre",
+    "name":"ogre",
   	"skeletonType":"ogre",
 	"resources":{
                 energy: 22,
@@ -45,5 +48,39 @@ db.formulas.insert([{
 			"healthPoints":12,
 			"def":15
 		}
-}
+},
+{
+  	"title":"Cat with a proper title",
+    "name":"cat",
+  	"skeletonType":"cat",
+	"resources":{
+                energy: 1,
+                brains: 2,
+                heartMuscles: 1,
+                livers: 1,
+                corpses: 1
+            },
+    "img":"https://i.ytimg.com/vi/YCaGYUIfdy4/maxresdefault.jpg",
+    "stats":{
+			"healthPoints":1,
+			"def":9
+		}
+},
+{
+  	"title":"Dog",
+    "name":"dog",
+  	"skeletonType":"dog",
+	"resources":{
+                energy: 4,
+                brains: 3,
+                heartMuscles: 2,
+                livers: 1,
+                corpses: 10
+            },
+    "img":"https://i.kym-cdn.com/entries/icons/original/000/000/027/advicedog.jpg",
+    "stats":{
+			"healthPoints":12,
+			"def":15
+		}
+},
 ]);
