@@ -8,8 +8,17 @@ let Formula = mongoose.model('formulas');
 module.exports = (app)=>{
 
   app.post('/registration', (req, res)=>{
+    
     const emailRegExp = new RegExp(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/, 'i');
-    if(!emailRegExp.test(req.body.email)) return res.sendStatus(400);
+    const usernameRegExp = new RegExp(/^[a-zA-Z0-9]+$/);
+    const passwordRegExp = new RegExp(/^[a-zA-Z0-9]+$/);
+    const emptySpacesRegExp = new RegExp(/[\s]{2,}/);
+
+    if(!emailRegExp.test(req.body.email) ||
+       !usernameRegExp.test(req.body.nickname) ||
+        emptySpacesRegExp.test(req.body.nickname) ||
+       !passwordRegExp.test(req.body.password)) return res.sendStatus(400);
+
     User.findOne({email:req.body.email}).then((data)=>{
       if(!data){
         bcrypt.hash(req.body.password, saltRounds, (err, hash)=>{
