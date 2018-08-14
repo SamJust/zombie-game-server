@@ -223,6 +223,9 @@
                         }
                       }
                },
+               "400":{
+                 "description":"Email validation failed"
+               },
                "409":{
                  "description":"Email is taken"
                }
