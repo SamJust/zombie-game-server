@@ -19,9 +19,9 @@ module.exports = (app)=>{
     }
 
     if (!usernameRegExp.test(req.body.nickname) || emptySpacesRegExp.test(req.body.nickname)) {
-      return res.status(400).send('usernameNoMatchCriteria1');
+      return res.status(400).send('usernameNoMatchCriteria');
     } else if (req.body.nickname.length < 3 || req.body.nickname.length > 36) {
-      return res.status(400).send('usernameNoMatchCriteria2');
+      return res.status(400).send('usernameNoMatchCriteria');
     }
 
     if (!passwordRegExp.test(req.body.password)) {
