@@ -9,27 +9,23 @@ const mongoose = require('mongoose');
 
 let User = mongoose.model('users');
 
-module.exports = (app)=>{
-  app.get('/resources', (req, res)=>{
-    User.findById(req.session._id, {resources:1, _id:0}, (err, data)=>{
-      if(!data){
-        res.sendStatus(404);
-      } else {
-        res.json(data._doc.resources);
-      }
-    });
-  });
+module.exports = {
+  GetResources: async (req, res)=>{
+    const data = await User.findById(req.session._id, {resources:1, _id:0}).exec();
+    if(!data){
+      res.sendStatus(404);
+    } else {
+      res.json(data._doc.resources);
+    }
+  },
 
-  app.post('/resources', (req, res)=>{
-    User.findByIdAndUpdate(req.session._id, {
+  PostResources: async (req, res)=>{
+    await User.findByIdAndUpdate(req.session._id, {
       $set:{
         resources:req.body
       }
-    }).then(data=>{
-      req.session.resources = req.body;
-      res.sendStatus(200);
-    }).catch(err => {
-      res.sendStatus(500);
-    });
-  });
+    }).exec();
+    req.session.resources = req.body;
+    res.sendStatus(200);
+  }
 };
