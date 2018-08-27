@@ -22,9 +22,10 @@ mongoose.connect("mongodb://admin:admin@ds231559.mlab.com:31559/zombie-game-app"
   }
 );
 
-require('./../models');
+require('../models');
 
-const session = require('./../modules/session');
+const session = require('../modules/session');
+const router = require('../routes');
 
 let app = express();
 // let urlencodedParser = bodyParser.urlencoded({extended:false});
@@ -34,13 +35,7 @@ app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerJSON));
 app.use(jsonParser);
 app.use(cookieParser());
 app.use(session);
-
-require('../controllers/registrationController.js')(app);
-require('../controllers/loginController.js')(app);
-require('../controllers/resourcesController.js')(app);
-require('../controllers/formulasController.js')(app);
-require('../controllers/userController.js')(app);
-require('../controllers/skeletonsController.js')(app);
+app.use('/api', router);
 
 app.get('/logs', (req, res)=>{
   res.set('Content-Type', 'text/plain');

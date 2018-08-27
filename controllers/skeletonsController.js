@@ -4,9 +4,9 @@ const mongoose = require('mongoose')
 
 const User = mongoose.model('users');
 
-module.exports = (app) => {
+module.exports = {
 
-  app.post('/skeletons', (req, res)=>{
+  PostSkeletons: async (req, res)=>{
     let index = req.session.skeletons.findIndex(item => item.type === req.body.type);
     if(index === -1){
       const newSkeletons = {
@@ -16,33 +16,25 @@ module.exports = (app) => {
         ]
       };
       req.session.skeletons.push(newSkeletons);
-      User.findByIdAndUpdate(req.session._id, {
+      await User.findByIdAndUpdate(req.session._id, {
         $push:{
             skeletons:newSkeletons
         }
-      }).then(data => {
-        res.status(201).json(modifySession(req.session));
-      }).catch(err => {
-        console.log(err.message);
-        res.sendStatus(500);
-      });
+      }).exec();
+      res.status(201).json(modifySession(req.session));
     } else {
-      let field = `skeletons.${index}.integrety`;
+      const field = `skeletons.${index}.integrety`;
       req.session.skeletons[index].integrety.push(req.body.integrety);
-      User.findByIdAndUpdate(req.session._id, {
+      await User.findByIdAndUpdate(req.session._id, {
         $push:{
             [field]:req.body.integrety
         }
-      }).then(data => {
-        res.status(201).json(modifySession(req.session));
-      }).catch(err => {
-        console.log(err.message);
-        res.sendStatus(500);
-      });
+      }).exec();
+      res.status(201).json(modifySession(req.session));
     }
-  });
+  },
 
-  app.patch('/skeletons', (req, res)=>{
+  PatchSkeletons: async (req, res)=>{
     const { a, b } = req.body;
     let checkA = findSkeleton(req.session.skeletons, a.type, a.integrety);
     let checkB = findSkeleton(req.session.skeletons, b.type, b.integrety);
@@ -53,29 +45,24 @@ module.exports = (app) => {
     let index = req.session.skeletons.findIndex(item => item.type === req.body.type);
     if(index === -1) {
       req.session.skeletons.push(req.body);
-      User.findByIdAndUpdate(req.session._id, {
+      await User.findByIdAndUpdate(req.session._id, {
         $push:{
-            skeletons:req.body
+            skeletons:{
+              type: req.body.targetType,
+              integrety: [ targetIntegrety ]
+            }
         }
-      }).then(data => {
-        res.sendStatus(201);
-      }).catch(err => {
-        console.log(err.message);
-        res.sendStatus(500);
-      });
+      }).exec();
+      res.sendStatus(201);      
     } else {
-      let field = `skeletons.${index}.integrety`;
+      const field = `skeletons.${index}.integrety`;
       req.session.skeletons[index].integrety.push(req.body.integrety);
-      User.findByIdAndUpdate(req.session._id, {
+      await User.findByIdAndUpdate(req.session._id, {
         $push:{
-            [field]:req.body.integrety
+            [field]:targetIntegrety
         }
-      }).then(data => {
-        res.status(201).json(modifySession(req.session));
-      }).catch(err => {
-        console.log(err.message);
-        res.sendStatus(500);
-      });
+      }).exec();
+      res.status(201).json(modifySession(req.session));
     }
-  });
+  }
 };
