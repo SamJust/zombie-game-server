@@ -5,10 +5,10 @@ const secretString = require('../../config/config.json');
 
 let sessions = {};
 
-let Session = mongoose.model('sessions')
-  , User    = mongoose.model('users');
+let Session = require('../../models/sessionModel')
+  , User    = require('../../models/userModel');
 
-Session.findOne({}).then(data=>{
+Session.GetSessions().then(data=>{
   (data===null)? sessions = {} : sessions = data.sessions;
   console.log('Sessions loaded');
 }).catch(err => console.log(err.message));
@@ -71,9 +71,5 @@ module.exports = (req, res, next)=>{
 };
 
 setInterval(()=>{
-  Session.update({}, {
-    $set:{
-      'sessions': sessions
-    }
-  }, (err, data)=>{});
+  Session.Update(sessions, (err, data)=>{});
 }, 3000);

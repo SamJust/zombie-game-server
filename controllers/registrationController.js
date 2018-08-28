@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-let User = mongoose.model('users');
-let Formula = mongoose.model('formulas');
+const User = require('../models/userModel');
 
 module.exports = {
 
@@ -30,11 +29,11 @@ module.exports = {
       return res.status(400).send('passwordNoMatchCriteria');
     }
 
-    const data = await User.findOne({email:req.body.email});
+    const data = await User.FindUserByEmail(req.body.email);
     if(!data){
       bcrypt.hash(req.body.password, saltRounds, async (err, hash)=>{
         if(err) return res.sendStatus(500);
-        await User.create({
+        await User.CreateUser({
           nickname: req.body.nickname,
           email: req.body.email,
           password: hash,
@@ -64,7 +63,7 @@ module.exports = {
               date:1
           }],
           lastLocation: '/'
-        }).exec();
+        });
         res.createSession(data);
         res.status(201).json({
           nickname: data.nickname,
@@ -73,8 +72,8 @@ module.exports = {
           knownFormulas: data.knownFormulas,
           lastLocation: data.lastLocation,
           army: data.army
-          });
         });
+      });
     }
     else res.sendStatus(409);
   }

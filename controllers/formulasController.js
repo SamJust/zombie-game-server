@@ -2,8 +2,8 @@ const mongoose = require('mongoose')
     , findSkeleton = require('../utils/findSkeleton.js')
     , modifySession = require('../utils/modifySession.js');
 
-let Formulas = mongoose.model("formulas")
-  , User = mongoose.model("users");
+let Formulas = require('../models/formulasModel')
+  , User = require('../models/userModel');
 
 function checkResources (targetResources, currentResources) {
   for (let property in targetResources) {
@@ -24,13 +24,13 @@ function withdrawResources (targetResources, currentResources) {
 
 module.exports = {
   GetFormulas: async (req, res)=>{
-    const formulas = await Formulas.find({}).exec();
+    const formulas = await Formulas.GetFormulas();
     res.json(formulas);
   },
 
   PostFormulas: async (req, res)=>{
     if(req.session.knownFormulas.findIndex(formula => formula.name === req.body.item) === -1) return res.sendStatus(462);
-    const data = await Formulas.findById(req.body.item).exec();
+    const data = await Formulas.GetSingleFormula(req.body.item);
     if(!checkResources(data.resources, req.session.resources)) return res.sendStatus(460);
     const skeletonLoaction = findSkeleton(req.session.skeletons, data.skeletonType, 1);
     if(!skeletonLoaction) return res.sendStatus(461);
@@ -43,15 +43,7 @@ module.exports = {
     };
     req.session.skeletons[skeletonLoaction.i].integrety.splice(skeletonLoaction.a, 1);
     req.session.army.push(newUnit);
-    await User.findByIdAndUpdate(req.session._id, {
-      $set:{
-        skeletons: req.session.skeletons,
-        resources: req.session.resources
-      },
-      $push:{
-        army: newUnit
-      }
-    }).exec();
+    await User.AddUnit(req.session._id, req.session.skeletons, req.session.resources, newUnit);
     res.json(modifySession(req.session));
   },
 
@@ -61,13 +53,9 @@ module.exports = {
       name: req.body.name,
       date: Date.now()
     };
-    const data  =  Formulas.findOne({ name: req.body.name }).exec();
+    const data = Formulas.GetFormulaByName(name);
     if(!data) res.sendStatus(400);
-    const user = await User.findByIdAndUpdate(req.session._id, {
-      $push:{
-        knownFormulas: newFormula
-      }
-    }).exec();
+    const user = await User.AddFormula(req.session._id, newFormula);
     if(!user) return res.sendStatus(400);
     req.session.knownFormulas.push(newFormula);
     res.status(201).json(req.session);

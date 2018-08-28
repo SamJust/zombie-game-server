@@ -22,8 +22,6 @@ mongoose.connect("mongodb://admin:admin@ds231559.mlab.com:31559/zombie-game-app"
   }
 );
 
-require('../models');
-
 const session = require('../modules/session');
 const router = require('../routes');
 

@@ -1,11 +1,20 @@
 const mongoose = require('mongoose');
+const resourcesSchema = require('./resourcesSchema.js');
 
-var modelSchema = new mongoose.Schema({
+var formulaSchema = new mongoose.Schema({
   name: String,
   skeletonType: String,
   title: String,
-  resources: Object,
+  resources: resourcesSchema,
   img: String
 });
 
-mongoose.model('formulas', modelSchema);
+const Formula = mongoose.model('formulas', formulaSchema);
+
+module.exports = {
+  GetFormulas: () => Formula.find({}).exec(),
+
+  GetSingleFomula: (id) => Formula.findById(id).exec(),
+
+  GetFormulaByName: (name) => Formula.findOne({ name }).exec()
+};
