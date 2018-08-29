@@ -1,6 +1,4 @@
-
 const express = require('express')
-    , PORT = process.env.PORT || 3001
     , mongoose = require('mongoose')
     , bodyParser = require('body-parser')
     , cookieParser = require('cookie-parser')
@@ -13,17 +11,6 @@ const express = require('express')
 //   fs.appendFileSync('log.txt', `[${Date.now()}]Caught exception: ${err}\n`);
 // });
 
-mongoose.connect("mongodb://admin:admin@ds231559.mlab.com:31559/zombie-game-app").then(
-  ()=>{
-    console.log("Succefull connection to DB");
-  },
-  ()=>{
-    console.log("Something wrong with DB");
-  }
-);
-
-require('../models');
-
 const session = require('../modules/session');
 const router = require('../routes');
 
@@ -34,7 +21,7 @@ let jsonParser = bodyParser.json();
 app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerJSON));
 app.use(jsonParser);
 app.use(cookieParser());
-app.use(session);
+app.use(session());
 app.use('/api', router);
 
 app.get('/logs', (req, res)=>{
@@ -48,12 +35,12 @@ app.get('/logs', (req, res)=>{
   });
 });
 
-app.get('*', (req, res)=>{
-  res.sendStatus(404);
+app.get('/test', (req, res)=>{
+  res.json({foo: 'bar'});
 });
 
-app.listen(PORT, ()=>{
-  console.log(`Listening to port ${PORT}`);
+app.get('*', (req, res)=>{
+  res.sendStatus(404);
 });
 
 module.exports = app;

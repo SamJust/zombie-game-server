@@ -4,7 +4,8 @@
   "description": "A server for zombie game",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "node test.js"
   },
   "author": "Sam Just",
   "license": "UNLICENSED",
@@ -17,5 +18,9 @@
     "mongoose": "^5.0.12",
     "mongoose-auto-increment": "^5.0.1",
     "swagger-ui-express": "^3.0.9"
+  },
+  "devDependencies": {
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.5"
   }
 }

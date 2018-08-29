@@ -5,13 +5,11 @@
 // - сердце
 // - печень
 
-const mongoose = require('mongoose');
-
-let User = mongoose.model('users');
+let User = require('../models/userModel');
 
 module.exports = {
   GetResources: async (req, res)=>{
-    const data = await User.findById(req.session._id, {resources:1, _id:0}).exec();
+    const data = await User.GetUserResources(req.session._id);
     if(!data){
       res.sendStatus(404);
     } else {
@@ -20,11 +18,7 @@ module.exports = {
   },
 
   PostResources: async (req, res)=>{
-    await User.findByIdAndUpdate(req.session._id, {
-      $set:{
-        resources:req.body
-      }
-    }).exec();
+    await User.UpdateUserResources(req.session._id, req.body);
     req.session.resources = req.body;
     res.sendStatus(200);
   }

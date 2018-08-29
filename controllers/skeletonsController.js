@@ -1,8 +1,7 @@
-const mongoose = require('mongoose')
-    , findSkeleton = require('../utils/findSkeleton.js')
+const findSkeleton = require('../utils/findSkeleton.js')
     , modifySession = require('../utils/modifySession.js');
 
-const User = mongoose.model('users');
+const User = require('../models/userModel');
 
 module.exports = {
 
@@ -16,20 +15,12 @@ module.exports = {
         ]
       };
       req.session.skeletons.push(newSkeletons);
-      await User.findByIdAndUpdate(req.session._id, {
-        $push:{
-            skeletons:newSkeletons
-        }
-      }).exec();
+      await User.AddNewSkeleton(req.session._id, newSkeletons);
       res.status(201).json(modifySession(req.session));
     } else {
       const field = `skeletons.${index}.integrety`;
       req.session.skeletons[index].integrety.push(req.body.integrety);
-      await User.findByIdAndUpdate(req.session._id, {
-        $push:{
-            [field]:req.body.integrety
-        }
-      }).exec();
+      await User.AddSpecificSkeleton(req.session._id, field, req.body.integrety);
       res.status(201).json(modifySession(req.session));
     }
   },
@@ -45,23 +36,15 @@ module.exports = {
     let index = req.session.skeletons.findIndex(item => item.type === req.body.type);
     if(index === -1) {
       req.session.skeletons.push(req.body);
-      await User.findByIdAndUpdate(req.session._id, {
-        $push:{
-            skeletons:{
-              type: req.body.targetType,
-              integrety: [ targetIntegrety ]
-            }
-        }
-      }).exec();
+      await User.AddNewSkeleton(req.session._id, {
+        type: req.body.targetType,
+        integrety: [ targetIntegrety ]
+      });
       res.sendStatus(201);      
     } else {
       const field = `skeletons.${index}.integrety`;
       req.session.skeletons[index].integrety.push(req.body.integrety);
-      await User.findByIdAndUpdate(req.session._id, {
-        $push:{
-            [field]:targetIntegrety
-        }
-      }).exec();
+      await User.AddSpecificSkeleton(req.session._id, field, targetIntegrety);
       res.status(201).json(modifySession(req.session));
     }
   }
