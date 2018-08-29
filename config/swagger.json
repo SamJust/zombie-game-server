@@ -552,7 +552,7 @@
               "description":"Success",
               "example":{
                   "lvl": 7,
-                  "exp": 5,
+                  "experience": 5,
                   "maxArmy": 1
               }
             },

@@ -5,14 +5,14 @@ const userSchema = new mongoose.Schema({
   nickname: String,
   password: String,
   email: String,
-  resources: resourcesSchema,
+  resources: Object,
   army: Array,
   skeletons: Array,
   knownFormulas: Array,
   lastLocation: String,
   sessions: Array,
   lvl: Number,
-  exp: Number,
+  experience: Number,
   maxArmy: Number
 });
 
@@ -48,7 +48,7 @@ module.exports = {
     }
   }).exec(),
 
-  CreateUser: user => User.create(user).exec(),
+  CreateUser: user => User.create(user),
 
   AddNewSkeleton: (_id, skeletons) => User.findByIdAndUpdate(_id, {
     $push: {
@@ -70,5 +70,11 @@ module.exports = {
 
   DeleteUser: _id => User.findByIdAndRemove(_id).exec(),
 
-  GetUserInfo: _id => User.findById(_id, {_id:0, maxArmy: 1, exp: 1, lvl: 1}).exec()
+  GetUserInfo: _id => User.findById(_id, {_id:0, maxArmy: 1, exp: 1, lvl: 1}).exec(),
+
+  AddSession: (_id, session) => User.findByIdAndUpdate(_id,{
+    $push: {
+       sessions:session
+    }
+  }).exec()
 };

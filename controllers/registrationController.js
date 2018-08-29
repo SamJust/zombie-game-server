@@ -33,7 +33,7 @@ module.exports = {
     if(!data){
       bcrypt.hash(req.body.password, saltRounds, async (err, hash)=>{
         if(err) return res.sendStatus(500);
-        await User.CreateUser({
+        const user = await User.CreateUser({
           nickname: req.body.nickname,
           email: req.body.email,
           password: hash,
@@ -64,14 +64,14 @@ module.exports = {
           }],
           lastLocation: '/'
         });
-        res.createSession(data);
+        res.createSession(user);
         res.status(201).json({
-          nickname: data.nickname,
-          resources: data.resources,
-          skeletons: data.skeletons,
-          knownFormulas: data.knownFormulas,
-          lastLocation: data.lastLocation,
-          army: data.army
+          nickname: user.nickname,
+          resources: user.resources,
+          skeletons: user.skeletons,
+          knownFormulas: user.knownFormulas,
+          lastLocation: user.lastLocation,
+          army: user.army
         });
       });
     }

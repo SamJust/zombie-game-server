@@ -18,7 +18,7 @@ module.exports = {
   },
 
   PostResources: async (req, res)=>{
-    await User.UpdateUserResources(req.session._id, req.body).exec();
+    await User.UpdateUserResources(req.session._id, req.body);
     req.session.resources = req.body;
     res.sendStatus(200);
   }

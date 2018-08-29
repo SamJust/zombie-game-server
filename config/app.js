@@ -11,15 +11,6 @@ const express = require('express')
 //   fs.appendFileSync('log.txt', `[${Date.now()}]Caught exception: ${err}\n`);
 // });
 
-mongoose.connect("mongodb://admin:admin@ds231559.mlab.com:31559/zombie-game-app").then(
-  ()=>{
-    console.log("Succefull connection to DB");
-  },
-  ()=>{
-    console.log("Something wrong with DB");
-  }
-);
-
 const session = require('../modules/session');
 const router = require('../routes');
 
@@ -42,6 +33,10 @@ app.get('/logs', (req, res)=>{
   stream.on('end', ()=>{
     res.end();
   });
+});
+
+app.get('/test', (req, res)=>{
+  res.json({foo: 'bar'});
 });
 
 app.get('*', (req, res)=>{
