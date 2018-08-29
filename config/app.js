@@ -1,6 +1,4 @@
-
 const express = require('express')
-    , PORT = process.env.PORT || 3001
     , mongoose = require('mongoose')
     , bodyParser = require('body-parser')
     , cookieParser = require('cookie-parser')
@@ -32,7 +30,7 @@ let jsonParser = bodyParser.json();
 app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerJSON));
 app.use(jsonParser);
 app.use(cookieParser());
-app.use(session);
+app.use(session());
 app.use('/api', router);
 
 app.get('/logs', (req, res)=>{
@@ -48,10 +46,6 @@ app.get('/logs', (req, res)=>{
 
 app.get('*', (req, res)=>{
   res.sendStatus(404);
-});
-
-app.listen(PORT, ()=>{
-  console.log(`Listening to port ${PORT}`);
 });
 
 module.exports = app;

@@ -12,8 +12,8 @@ module.exports = {
       $set:{
         'sessions': sessions
       }
-    });
+    }).exec();
   },
 
-  GetSessions: () => Sessions.find({})
+  GetSessions: () => Sessions.findOne({})
 };
