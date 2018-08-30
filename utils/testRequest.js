@@ -3,6 +3,8 @@ const request = require('request');
 module.exports = (url) => {
     return {
 
+        statusCode: 200,
+
         expectedStatusCode (code){
             this.statusCode = code;
             return this;
@@ -37,32 +39,31 @@ module.exports = (url) => {
                             responseBody, description } = this;
                     
 
-                    if(httpResponse.headers["content-type"].includes('application/json')){
+                    if(httpResponse.headers["content-type"] && 
+                       httpResponse.headers["content-type"].includes('application/json')){
                         data = JSON.parse(data);
                     }
 
-                    if(statusCode){
-                        if(httpResponse.statusCode !== this.statusCode) reject(`Status codes didn't match! ${description}`)
-                    }
+                    if(httpResponse.statusCode !== statusCode) return reject(`Status codes didn't match! ${description} \n Expected: ${statusCode}. Got: ${httpResponse.statusCode}`);
 
                     if(responseType){
-                        console.log(responseType)
-                        if(typeof data !== responseType) reject(`Wrong type of data returned. ${description}`);
+                        if(typeof data !== responseType) return reject(`Wrong type of data returned. ${description} \n Expected: ${responseType}. Got: ${typeof data}`);
                     }
 
                     if(responseObject){
                         for (const key in responseObject) {
                             if (responseObject.hasOwnProperty(key)) {
-                                if(typeof data[key] !== responseObject[key]) reject(`Type of ${key} didn't match. ${description}`)
+                                if(typeof data[key] !== responseObject[key]) return reject(`Type of ${key} didn't match. ${description} \n Expected: ${responseObject[key]}. Got: ${typeof data[key]}`)
                             }
                         }
                     }
 
                     if(responseBody){
-                        if(data !== responseBody) reject(`The response body was unexpected. ${description}`);
+                        if(data !== responseBody) return reject(`The response body was unexpected. ${description} \n Expected: ${responseBody}. Got: ${data}`);
                     }
 
-                    resolve(httpResponse, data);
+                    console.log(`${description} -- done!`)
+                    resolve(httpResponse);
                 });
             })
         }

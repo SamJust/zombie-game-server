@@ -57,7 +57,7 @@ module.exports = function () {
       case '/api/deleteacc':
         res.deleteSession = async ()=>{
           req.session.endDate = Date.now();
-          await User.AddSession(req.session._id, req.session);
+          await User.AddSession(req.session);
           res.clearCookie('token');
           delete sessions[token.sessionId];
         }

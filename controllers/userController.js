@@ -10,7 +10,7 @@ module.exports = {
 
   PostDeleteAcc: async (req, res)=>{
     await User.DeleteUser(req.session._id);
-    res.deleteSession();
+    await res.deleteSession();
     res.end();
   },
 

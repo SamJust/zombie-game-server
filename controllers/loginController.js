@@ -35,7 +35,7 @@ module.exports = {
     });
   },
 
-  GetSignout: async (req, res)=>{
+  PostSignout: async (req, res)=>{
     await res.deleteSession();
     res.sendStatus(200);
   }

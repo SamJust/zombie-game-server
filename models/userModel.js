@@ -72,7 +72,7 @@ module.exports = {
 
   GetUserInfo: _id => User.findById(_id, {_id:0, maxArmy: 1, exp: 1, lvl: 1}).exec(),
 
-  AddSession: (_id, session) => User.findByIdAndUpdate(_id,{
+  AddSession: (session) => User.findByIdAndUpdate(session._id,{
     $push: {
        sessions:session
     }

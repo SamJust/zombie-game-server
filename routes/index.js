@@ -14,7 +14,7 @@ router.put('/formulas', formulasController.PutFormulas);
 
 // Login controller
 router.post('/login', loginController.PostLogin);
-router.get('/signout', loginController.GetSignout);
+router.post('/signout', loginController.PostSignout);
 
 // Registration controller
 router.post('/registration', registrationController.PostRegistration);
@@ -26,7 +26,7 @@ router.post('/resources', resourcesController.PostResources);
 // User controller
 router.get('/userinfo', userController.GetUserInfo);
 router.get('/lastlocation', userController.PostLastLocation);
-router.get('/deleteacc', userController.PostDeleteAcc);
+router.post('/deleteacc', userController.PostDeleteAcc);
 
 // Skeletons controlle
 router.post('/skeletons', skeletonsController.PostSkeletons);

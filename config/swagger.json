@@ -489,7 +489,7 @@
         }
       },
       "/signout":{
-        "get":{
+        "post":{
           "tags":[
              "User"
           ],
